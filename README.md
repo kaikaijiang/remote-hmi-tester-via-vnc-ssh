@@ -1,4 +1,4 @@
-# Edge Link Manager
+# VNC Test Console
 
 A Flutter application for managing remote connections to edge devices with SSH and VNC capabilities.
 
