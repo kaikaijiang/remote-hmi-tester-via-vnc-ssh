@@ -1,13 +1,25 @@
-# VNC Test Console
+# Remote HMI Tester via VNC/SSH
 
-A Flutter application for managing remote connections to edge devices with SSH and VNC capabilities.
+A Flutter application for industrial users to remotely test edge-device HMIs via VNC (GUI) and SSH (tools, diagnostics, and MQTT).
 
 ## Features
 
-- SSH connection management
+- SSH connection management and command execution
 - VNC remote desktop viewing
-- Diagnostic tools
-- Hardware management utilities
+- MQTT publish/subscribe tools (over SSH)
+- Diagnostics utilities
+
+## How Connections Work
+
+- VNC is a direct TCP connection to the target host on port 5900 (via `flutter_rfb`).
+- SSH is used separately for diagnostics, terminal commands, and MQTT tooling.
+- This app does not create an SSH tunnel for VNC. If you need VNC-over-SSH, you must set up tunneling outside the app, and the current UI assumes the same host for both VNC and SSH.
+
+## Target Device Requirements
+
+- A running VNC server on port 5900 with a configured password.
+- An SSH server with password authentication enabled.
+- `mosquitto_pub` and `mosquitto_sub` available on the device if you use MQTT tools.
 
 ## Getting Started
 
@@ -43,6 +55,21 @@ flutter build <platform>
 ```
 
 Replace `<platform>` with one of: `android`, `ios`, `macos`, `linux`, or `web`.
+
+## Usage
+
+1. Open the Settings page and set:
+   - Edge Device IP (used for both VNC and SSH connections)
+   - SSH username, password, and port
+   - VNC password
+2. Save settings and optionally test the SSH connection.
+3. Open the VNC page and click “Connect to VNC”.
+4. Use the SSH page for terminal commands and the MQTT tools for publish/subscribe.
+
+## Security Notes
+
+- Credentials are stored in shared preferences on the client device.
+- SSH host key verification is not configured, so you should only connect to trusted hosts.
 
 ## Development Resources
 
